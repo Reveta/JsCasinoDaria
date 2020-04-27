@@ -14,7 +14,6 @@ function run() {
         }
     }
 
-    alert("Log.Info: Program is ended")
 }
 
 function test() {

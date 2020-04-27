@@ -4,7 +4,8 @@ const prizesZ = [
     new AttemptPrize(2, 100),
     new AttemptPrize(3, 50),
 ];
-
+//TODO Переписати на основі батьківського класу
+//TODO Перенести змінні всередину класу
 class StageRoundTwo {
     storage;
 
