@@ -1,31 +1,25 @@
-const randomRangeZ = 10;
-const prizesZ = [
-    new AttemptPrize(1, 200),
-    new AttemptPrize(2, 100),
-    new AttemptPrize(3, 50),
-];
-//TODO Переписати на основі батьківського класу
-//TODO Перенести змінні всередину класу
-class StageRoundTwo {
-    storage;
+class StageRoundTwo extends StageRound{
 
-    randomGeneratedNumber;
-    attemptsBaseCount;
+    randomRange = 10;
+    prizes = [
+        new AttemptPrize(1, 200),
+        new AttemptPrize(2, 100),
+        new AttemptPrize(3, 50),
+    ];
 
     constructor() {
-        this.randomGeneratedNumber = generateRandomNumber(randomRangeZ);
-        this.attemptsBaseCount = prizesZ.length;
-
-        this.storage = new Storage();
-        console.log(this.randomGeneratedNumber)
+        super();
+        this.randomGeneratedNumber = generateRandomNumber(this.randomRange);
+        this.attemptsBaseCount = this.prizes.length;
     }
 
     run() {
+        console.log(this.randomGeneratedNumber);
         for (let attemptIndex = 1; attemptIndex <= this.attemptsBaseCount; attemptIndex++) {
-            let prizeByAttemptIndex = prizesZ.find(value => value.attemptIndex === attemptIndex).prize;
+            let prizeByAttemptIndex = this.prizes.find(value => value.attemptIndex === attemptIndex).prize;
 
             let numberFromClient = +prompt(getMessage(
-                randomRangeZ,
+                this.randomRange,
                 this.attemptsBaseCount - attemptIndex + 1,
                 this.storage.getTotalPrize(),
                 prizeByAttemptIndex));
@@ -35,18 +29,5 @@ class StageRoundTwo {
                 break;
             }
         }
-
-        return new StageTotalResult();
     }
-}
-
-function getMessage(randomRange, attemptLeft, totalPrize, actualPrize) {
-    return `Choose a roulette pocket number from 0 to ${randomRange}
-        Attempt left: ${attemptLeft}
-        Total prize: ${totalPrize}$
-        Possible prize on current attempt: ${actualPrize}`;
-}
-
-function generateRandomNumber(range) {
-    return Math.round(Math.random() * range)
 }

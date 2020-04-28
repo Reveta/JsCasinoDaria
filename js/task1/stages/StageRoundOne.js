@@ -1,33 +1,30 @@
-const randomRange = 5;
-const prizes = [
-    new AttemptPrize(1, 100),
-    new AttemptPrize(2, 50),
-    new AttemptPrize(3, 25),
-];
 
 //TODO Переписати на основі батьківського класу
 //TODO Перенести змінні всередину класу
-class StageRoundOne {
-    storage;
+class StageRoundOne extends StageRound{
 
-    randomGeneratedNumber;
-    attemptsBaseCount;
+    randomRange = 5;
+    prizes = [
+        new AttemptPrize(1, 100),
+        new AttemptPrize(2, 50),
+        new AttemptPrize(3, 25),
+    ];
+
 
     constructor() {
-        this.randomGeneratedNumber = generateRandomNumber(randomRange);
-        this.attemptsBaseCount = prizes.length;
-
-        this.storage = new Storage();
+        super();
+        this.randomGeneratedNumber = generateRandomNumber(this.randomRange);
+        this.attemptsBaseCount = this.prizes.length;
     }
 
     run() {
-        console.log("randomNumber is =>" + this.randomGeneratedNumber)
+        console.log(this.randomGeneratedNumber);
 
         for (let attemptIndex = 1; attemptIndex <= this.attemptsBaseCount; attemptIndex++) {
-            let prizeByAttemptIndex = prizes.find(value => value.attemptIndex === attemptIndex).prize;
+            let prizeByAttemptIndex = this.prizes.find(value => value.attemptIndex === attemptIndex).prize;
 
             let numberFromClient = +prompt(getMessage(
-                randomRange,
+                this.randomRange,
                 this.attemptsBaseCount - attemptIndex + 1,
                 this.storage.getTotalPrize(),
                 prizeByAttemptIndex));
@@ -37,18 +34,8 @@ class StageRoundOne {
                 return new StageAskContinue();
             }
         }
-
-        return new StageTotalResult();
     }
 }
 
-function getMessage(randomRange, attemptLeft, totalPrize, actualPrize) {
-    return `Choose a roulette pocket number from 0 to ${randomRange}
-        Attempt left: ${attemptLeft}
-        Total prize: ${totalPrize}$
-        Possible prize on current attempt: ${actualPrize}`;
-}
 
-function generateRandomNumber(range) {
-    return Math.round(Math.random() * range)
-}
+
